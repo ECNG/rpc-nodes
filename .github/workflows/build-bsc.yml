@@ -22,7 +22,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: bsc-node
 
 jobs:
   build_container:
@@ -63,7 +63,7 @@ jobs:
             APP_BUILD_BRANCH=${{ github.ref }}
             APP_BUILD_DATETIME=${{ env.DATETIME }}
           context: "./build/bsc/"
-          tags: "ghcr.io/ecng/bsc-rpc:${{ github.event.inputs.bsc_version }}"
+          tags: "ghcr.io/ecng/$IMAGE_NAME:${{ github.event.inputs.bsc_version }}"
           push: true
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v3
@@ -71,4 +71,4 @@ jobs:
           #          severity_threshold: HIGH
           severity: HIGH,CRITICAL
           annotations: true
-          image: ghcr.io/ecng/bsc-rpc:${{ github.event.inputs.bsc_version }}
+          image: ghcr.io/ecng/$IMAGE_NAME:${{ github.event.inputs.bsc_version }}

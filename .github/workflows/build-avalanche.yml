@@ -63,7 +63,7 @@ jobs:
             APP_BUILD_BRANCH=${{ github.ref }}
             APP_BUILD_DATETIME=${{ env.DATETIME }}
           context: "./build/avalanche/"
-          tags: ghcr.io/ecng/$IMAGE_NAME:${{ github.event.inputs.node_version }}
+          tags: ghcr.io/ecng/avalanche-rpc:${{ github.event.inputs.node_version }}
           push: true
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v3
@@ -71,4 +71,4 @@ jobs:
           #          severity_threshold: HIGH
           severity: HIGH,CRITICAL
           annotations: true
-          image: ghcr.io/ecng/$IMAGE_NAME:${{ github.event.inputs.node_version }}
+          image: ghcr.io/ecng/avalanche-rpc:${{ github.event.inputs.node_version }}

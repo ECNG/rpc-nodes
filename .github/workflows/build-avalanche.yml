@@ -63,7 +63,7 @@ jobs:
             APP_BUILD_BRANCH=${{ github.ref }}
             APP_BUILD_DATETIME=${{ env.DATETIME }}
           context: "./build/avalanche/"
-          tags: "ghcr.io/ecng/${{ IMAGE_NAME }}:${{ github.event.inputs.version }}"
+          tags: ghcr.io/ecng/$IMAGE_NAME:${{ github.event.inputs.version }}
           push: true
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v3

@@ -5,7 +5,7 @@ echo "Start Script"
 if [ -f "/root/bsc_config/genesis.json" ];
 then
   echo " START NODE"
-  /opt/bsc/geth  --config /root/bsc_config/config.toml --syncmode=full --history.transactions=0 --db.engine pebble --tries-verify-mode none  --pruneancient=true --diffblock=5000 --cache 8000 --rpc.allow-unprotected-txs --datadir /data/node --maxpeers 200 --http --http.addr "0.0.0.0" --http.port "8545" --http.corsdomain "*" --http.vhosts "*" --ws --ws.addr "0.0.0.0" --ws.port "8546" --ws.origins "*" --metrics --metrics.addr "0.0.0.0" --metrics.port 6060  &
+  /opt/bsc/geth  --config /root/bsc_config/config.toml --syncmode=full --history.transactions=0 --db.engine pebble --tries-verify-mode none  --pruneancient=true --diffblock=5000 --cache 8000 --rpc.allow-unprotected-txs --datadir /data/node --maxpeers 200 --http --http.addr "0.0.0.0" --http.port "6545" --http.corsdomain "*" --http.vhosts "*" --ws --ws.addr "0.0.0.0" --ws.port "6546" --ws.origins "*" --metrics --metrics.addr "0.0.0.0" --metrics.port 6060  &
 
   wait -n
 

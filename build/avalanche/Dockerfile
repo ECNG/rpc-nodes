@@ -11,6 +11,6 @@ RUN wget -nd -m https://github.com/ava-labs/avalanchego/releases/download/$VERSI
 #COPY run_node.sh /
 #RUN chmod a+x /run_node.sh
 
-CMD ["/opt/node/avalanchego/avalanchego"]
+ENTRYPOINT ["/opt/node/avalanchego/avalanchego"]
 #CMD [ "/opt/node/avalanchego/avalanchego", "--http-host=0.0.0.0"]
 

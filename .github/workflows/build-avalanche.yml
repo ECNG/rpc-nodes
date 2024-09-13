@@ -1,4 +1,4 @@
-name: Avalanche
+name: Build Avalanche
 
 on:
   workflow_dispatch:

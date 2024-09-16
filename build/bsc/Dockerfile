@@ -26,4 +26,5 @@ RUN apt-get clean autoclean && \
     apt-get autoremove --yes && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/
 
-CMD ["/run_node.sh"]
+ENTRYPOINT ["/opt/bsc/geth"]
+#CMD ["/run_node.sh"]

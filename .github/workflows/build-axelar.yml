@@ -1,4 +1,4 @@
-name: Build Avalanche
+name: Build Axelar
 
 on:
   workflow_dispatch:

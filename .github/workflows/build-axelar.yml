@@ -76,7 +76,7 @@ jobs:
             APP_BUILD_BRANCH=${{ github.ref }}
             APP_BUILD_DATETIME=${{ env.DATETIME }}
           context: "./build/axelar/"
-          tags: ghcr.io/ecng/axelar-validator:${{ github.event.inputs.node_version }}
+          tags: ghcr.io/ecng/axelar-validator:${{ github.event.inputs.axelard_version }}-${{ github.event.inputs.tofnd_version }}
           push: true
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v3
@@ -84,4 +84,4 @@ jobs:
           #          severity_threshold: HIGH
           severity: HIGH,CRITICAL
           annotations: true
-          image: ghcr.io/ecng/axelar-validator:${{ github.event.inputs.node_version }}
+          image: ghcr.io/ecng/axelar-validator:${{ github.event.inputs.axelard_version }}-${{ github.event.inputs.tofnd_version }}

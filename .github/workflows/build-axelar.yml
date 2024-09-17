@@ -67,7 +67,7 @@ jobs:
         uses: docker/build-push-action@v6.7.0
         with:
           build-args: |
-            VERSION=${{ github.event.inputs.node_version }}
+            VERSION=${{ github.event.inputs.axelard_version }}-${{ github.event.inputs.tofnd_version }}
             AXELARD_VERSION=${{ github.event.inputs.axelard_version }}
             TOFND_VERSION=${{ github.event.inputs.tofnd_version }}
             LIBWASM_VERSION=${{ github.event.inputs.libwasm_version }}

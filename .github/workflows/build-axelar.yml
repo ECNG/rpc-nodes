@@ -81,7 +81,6 @@ jobs:
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v3
         with:
-          #          severity_threshold: HIGH
           severity: HIGH,CRITICAL
           annotations: true
           image: ghcr.io/ecng/axelar-validator:${{ github.event.inputs.axelard_version }}-${{ github.event.inputs.tofnd_version }}

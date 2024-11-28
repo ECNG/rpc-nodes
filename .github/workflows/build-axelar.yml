@@ -10,7 +10,7 @@ on:
           required: true
         tofnd_version:
           description: 'Tofnd version'
-          default: 'v0.10.5'
+          default: 'v0.10.1'
           type: string
           required: true
         libwasm_version:

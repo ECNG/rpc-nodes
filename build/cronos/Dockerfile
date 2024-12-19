@@ -1,6 +1,9 @@
 FROM debian:bullseye
+SHELL ["/bin/bash", "-c"]
 
-ARG VERSION
+#ARG VERSION
+ENV VERSION="v1.4.0"
+#ENV VERSION_WITHOUT_V=${VERSION:1}
 
 #Required variables set by default
 #ENV KEY="haqq_impulse"
@@ -17,10 +20,11 @@ ENV PATH /usr/local/go/bin:$PATH
 
 WORKDIR /opt
 
-RUN mkdir /opt/bsc/ && cd /opt/bsc && wget -c https://github.com/bnb-chain/bsc/releases/download/$VERSION/geth_linux && mv geth_linux geth && chmod +x /opt/bsc/geth
+RUN cd / && wget -nd -m https://github.com/crypto-org-chain/cronos/releases/download/${VERSION}/cronos_${VERSION:1}_Linux_x86_64.tar.gz && tar -xzvf cronos_* && rm -rf *.tar.gz && cronosd version
+
 
 RUN apt-get clean autoclean && \
     apt-get autoremove --yes && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/
 
-ENTRYPOINT ["/opt/bsc/geth"]
+ENTRYPOINT ["/bin/cronosd"]

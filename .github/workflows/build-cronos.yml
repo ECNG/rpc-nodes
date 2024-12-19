@@ -1,0 +1,74 @@
+name: Build Cronos
+
+on:
+  workflow_dispatch:
+      inputs:
+        cronos_version:
+          description: 'Version'
+          default: 'vX.X.X'
+          type: string
+          required: true
+#  push:
+    #    branches:
+    #      - "main"
+    #      - "feature/onfido-sdk-integration"
+#    tags: [ 'build*' ]
+#  pull_request:
+#    branches:
+#      - "main"
+#      - "feature/onfido-sdk-integration"
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: cronos-node
+
+jobs:
+  build_container:
+    name: Build and Push image to GitHub Containers
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      #id-token: write
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+      - name: Set correct environment
+        run: |
+          echo "Git from GITHUB_REF_NAME: $GITHUB_SHA"
+          echo "Git from container tag: ${{ github.ref_name }}"
+      - name: Set Datetime as Environment Variable
+        run: echo "DATETIME=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
+      - name: Set $GITHUB_ENV as Environment Variable
+        run: echo "GIT_SHA=$GITHUB_SHA" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Build and push image
+        uses: docker/build-push-action@v6.7.0
+        with:
+          build-args: |
+            VERSION=${{ github.event.inputs.cronos_version }}
+            APP_BUILD_VERSION=${{ github.ref_name }}
+            APP_BUILD_GIT_HASH=${{ env.GIT_SHA }}
+            APP_BUILD_BRANCH=${{ github.ref }}
+            APP_BUILD_DATETIME=${{ env.DATETIME }}
+          context: "./build/cronos/"
+          tags: "ghcr.io/ecng/cronos-rpc:${{ github.event.inputs.cronos_version }}"
+          push: true
+      - name: Scan for vulnerabilities
+        uses: crazy-max/ghaction-container-scan@v3
+        with:
+          #          severity_threshold: HIGH
+          severity: HIGH,CRITICAL
+          annotations: true
+          image: ghcr.io/ecng/cronos-rpc:${{ github.event.inputs.cronos_version }}

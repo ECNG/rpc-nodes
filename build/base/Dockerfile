@@ -18,7 +18,7 @@ WORKDIR /app
 
 ENV REPO=https://github.com/ethereum-optimism/op-geth.git
 ENV VERSION=v1.101411.4
-ENV COMMIT=5c2e75862239c77d2873de1888ba52ee84c83178
+ENV COMMIT=efa05b1bf5c22a60745e638ad9d4adadfe3daba9
 RUN git clone $REPO --branch $VERSION --single-branch . && \
     git switch -c branch-$VERSION && \
     bash -c '[ "$(git rev-parse HEAD)" = "$COMMIT" ]'

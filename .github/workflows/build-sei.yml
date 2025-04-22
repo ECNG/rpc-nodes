@@ -1,9 +1,9 @@
-name: Build Cronos
+name: Build SEI
 
 on:
   workflow_dispatch:
       inputs:
-        cronos_version:
+        sei_version:
           description: 'Version'
           default: 'vX.X.X'
           type: string
@@ -57,13 +57,13 @@ jobs:
         uses: docker/build-push-action@v6.7.0
         with:
           build-args: |
-            VERSION=${{ github.event.inputs.cronos_version }}
+            VERSION=${{ github.event.inputs.sei_version }}
             APP_BUILD_VERSION=${{ github.ref_name }}
             APP_BUILD_GIT_HASH=${{ env.GIT_SHA }}
             APP_BUILD_BRANCH=${{ github.ref }}
             APP_BUILD_DATETIME=${{ env.DATETIME }}
-          context: "./build/cronos/"
-          tags: "ghcr.io/ecng/cronos-rpc:${{ github.event.inputs.cronos_version }}"
+          context: "./build/sei/"
+          tags: "ghcr.io/ecng/sei-rpc:${{ github.event.inputs.sei_version }}"
           push: true
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v3
@@ -71,4 +71,4 @@ jobs:
           #          severity_threshold: HIGH
           severity: HIGH,CRITICAL
           annotations: true
-          image: ghcr.io/ecng/sei-rpc:${{ github.event.inputs.cronos_version }}
+          image: ghcr.io/ecng/sei-rpc:${{ github.event.inputs.sei_version }}

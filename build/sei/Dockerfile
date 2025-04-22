@@ -10,7 +10,11 @@ RUN cd /opt/ && wget https://dl.google.com/go/go1.22.0.linux-amd64.tar.gz && tar
 
 WORKDIR /opt/node
 
-RUN wget -nd -m https://github.com/sei-protocol/sei-chain/releases/download/$VERSION/seid-$VERSION-linux-amd64 && mv seid-$VERSION-linux-amd64 seid
+#RUN wget -nd -m https://github.com/sei-protocol/sei-chain/releases/download/$VERSION/seid-$VERSION-linux-amd64 && mv seid-$VERSION-linux-amd64 seid
+RUN git clone https://github.com/sei-protocol/sei-chain \
+    && cd sei-chain \
+    && git checkout $VERSION \
+    && make install
 
 ENTRYPOINT ["/opt/node/seid"]
 

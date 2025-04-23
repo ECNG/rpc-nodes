@@ -1,8 +1,10 @@
-FROM debian:bookworm
+FROM ubuntu:24.04
 
 ARG VERSION
 
-RUN apt-get update && apt-get install -y unzip git build-essential sudo dnsutils debconf apt-utils tzdata ca-certificates curl jq bash wget liblz4-tool aria2 expect supervisor
+RUN apt-get update \
+    && apt-get install -y gcc unzip sudo curl jq wget git make
+#    gcc unzip git build-essential sudo dnsutils debconf apt-utils tzdata curl jq bash wget liblz4-tool aria2
 
 WORKDIR /opt/node
 
@@ -13,6 +15,7 @@ RUN cd /opt/ && wget https://dl.google.com/go/go1.22.0.linux-amd64.tar.gz && tar
 RUN git clone https://github.com/sei-protocol/sei-chain \
     && cd sei-chain \
     && git checkout $VERSION \
+    && export PATH=$PATH:/bin/go/bin \
     && make install
 
 #ENTRYPOINT ["/opt/node/seid"]

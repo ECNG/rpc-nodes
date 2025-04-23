@@ -1,22 +1,23 @@
-FROM ubuntu:24.04
+FROM golang:1.22.12 as builder
 
 ARG VERSION
 
 RUN apt-get update \
     && apt-get install -y gcc unzip sudo curl jq wget git make
-#    gcc unzip git build-essential sudo dnsutils debconf apt-utils tzdata curl jq bash wget liblz4-tool aria2
 
 WORKDIR /opt/node
 
-RUN cd /opt/ && wget https://dl.google.com/go/go1.22.0.linux-amd64.tar.gz && tar -C /bin -xzf go1.22.0.linux-amd64.tar.gz \
-        && export PATH=$PATH:/bin/go/bin
-
-#RUN wget -nd -m https://github.com/sei-protocol/sei-chain/releases/download/$VERSION/seid-$VERSION-linux-amd64 && mv seid-$VERSION-linux-amd64 seid
-RUN git clone https://github.com/sei-protocol/sei-chain \
+RUN git clone --branch $VERSION --depth 1 https://github.com/sei-protocol/sei-chain \
     && cd sei-chain \
-    && git checkout $VERSION \
     && export PATH=$PATH:/bin/go/bin \
     && make install
 
-#ENTRYPOINT ["/opt/node/seid"]
 
+FROM debian:12
+
+COPY --from=builder /go/bin/seid /bin/
+COPY --from=builder /go/pkg/mod/github.com/sei-protocol/sei-wasmvm@v1.5.4-sei.0.0.1/internal/api/libwasmvm.x86_64.so /lib/
+
+CMD ["/bin/seid"]
+
+STOPSIGNAL SIGTERM

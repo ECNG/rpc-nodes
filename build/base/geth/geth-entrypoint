@@ -1,3 +1,4 @@
+
 #!/bin/bash
 set -eu
 
@@ -12,6 +13,17 @@ P2P_PORT="${P2P_PORT:-30303}"
 ADDITIONAL_ARGS=""
 OP_GETH_GCMODE="${OP_GETH_GCMODE:-full}"
 OP_GETH_SYNCMODE="${OP_GETH_SYNCMODE:-full}"
+
+# Add cache and txpool optimizations with defaults
+GETH_CACHE="${GETH_CACHE:-20480}"
+GETH_CACHE_DATABASE="${GETH_CACHE_DATABASE:-20}"
+GETH_CACHE_GC="${GETH_CACHE_GC:-12}"
+GETH_CACHE_SNAPSHOT="${GETH_CACHE_SNAPSHOT:-24}"
+GETH_CACHE_TRIE="${GETH_CACHE_TRIE:-44}"
+GETH_TXPOOL_GLOBALQUEUE="${GETH_TXPOOL_GLOBALQUEUE:-6144}"
+GETH_TXPOOL_GLOBALSLOTS="${GETH_TXPOOL_GLOBALSLOTS:-30072}"
+GETH_TXPOOL_LIFETIME="${GETH_TXPOOL_LIFETIME:-10m}"
+TXPOOL_PRICE_LIMIT="${TXPOOL_PRICE_LIMIT:-50}"
 
 if [[ -z "$OP_NODE_NETWORK" ]]; then
     echo "expected OP_NODE_NETWORK to be set" 1>&2
@@ -39,8 +51,8 @@ if [ "${OP_GETH_BOOTNODES+x}" = x ]; then
 fi
 
 if [ "${HOST_IP:+x}" = x ]; then
-	ADDITIONAL_ARGS="$ADDITIONAL_ARGS --nat=extip:$HOST_IP"
-fi
+    ADDITIONAL_ARGS="$ADDITIONAL_ARGS --nat=extip:$HOST_IP"
+fi 
 
 exec ./geth \
     --datadir="$GETH_DATA_DIR" \
@@ -59,7 +71,7 @@ exec ./geth \
     --ws.addr=0.0.0.0 \
     --ws.port="$WS_PORT" \
     --ws.origins="*" \
-    --ws.api=web3,debug,eth,net,engine \
+    --ws.api=debug,eth,net,engine \
     --metrics \
     --metrics.addr=0.0.0.0 \
     --metrics.port="$METRICS_PORT" \
@@ -71,4 +83,9 @@ exec ./geth \
     --op-network="$OP_NODE_NETWORK" \
     --port="$P2P_PORT" \
     --rollup.disabletxpoolgossip=true \
+    --cache="$GETH_CACHE" \
+    --cache.database="$GETH_CACHE_DATABASE" \
+    --cache.gc="$GETH_CACHE_GC" \
+    --cache.snapshot="$GETH_CACHE_SNAPSHOT" \
+    --cache.trie="$GETH_CACHE_TRIE" \
     $ADDITIONAL_ARGS # intentionally unquoted

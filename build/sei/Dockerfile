@@ -18,6 +18,7 @@ FROM debian:12
 
 COPY --from=builder /go/bin/seid /bin/
 COPY --from=builder /go/pkg/mod/github.com/sei-protocol/sei-wasmvm@v1.5.4-sei.0.0.3/internal/api/libwasmvm.x86_64.so /lib/
+COPY --from=builder /go/pkg/mod/github.com/sei-protocol/sei-wasmd@v0.3.5/x/wasm/artifacts/v152/api/libwasmvm152.x86_64.so /lib/
 
 CMD ["/bin/seid"]
 

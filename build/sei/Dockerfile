@@ -12,6 +12,7 @@ RUN git clone --branch $VERSION --depth 1 https://github.com/sei-protocol/sei-ch
     && export PATH=$PATH:/bin/go/bin \
     && make install
 
+RUN find / | grep -in libwasmvm
 
 FROM debian:12
 

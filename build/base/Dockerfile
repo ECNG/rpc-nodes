@@ -1,5 +1,5 @@
 # https://github.com/base/node/blob/main/geth/Dockerfile, see actiual versions
-FROM golang:1.22 AS op
+FROM golang:1.23 AS op
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ RUN curl -sSfL 'https://just.systems/install.sh' | bash -s -- --to /usr/local/bi
 RUN cd op-node && \
     make VERSION=$VERSION op-node
 
-FROM golang:1.22 AS geth
+FROM golang:1.23 AS geth
 
 WORKDIR /app
 

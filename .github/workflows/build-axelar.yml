@@ -5,7 +5,7 @@ on:
       inputs:
         axelard_version:
           description: 'Axelard version'
-          default: 'v1.2.2'
+          default: 'v1.3.1'
           type: string
           required: true
         tofnd_version:
@@ -15,7 +15,7 @@ on:
           required: true
         libwasm_version:
           description: 'Libwasm version'
-          default: 'v1.5.8'
+          default: 'v2.2.4'
           type: string
           required: true
     #  push:

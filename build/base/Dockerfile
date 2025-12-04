@@ -1,11 +1,12 @@
 # https://github.com/base/node/blob/main/geth/Dockerfile, see actiual versions
+# https://github.com/base/node/blob/main/versions.env
 FROM golang:1.23 AS op
 
 WORKDIR /app
 
 ENV REPO=https://github.com/ethereum-optimism/optimism.git
-ENV VERSION=v1.13.7
-ENV COMMIT=b7b94b9ab904ab463e7a93d36ff4e99e6143d96b
+ENV VERSION=v1.16.2
+ENV COMMIT=1b8c541060f0d323a7023fbc68fbbc8daf674340
 RUN git clone $REPO --branch op-node/$VERSION --single-branch . && \
     git switch -c branch-$VERSION
 #    bash -c '[ "$(git rev-parse HEAD)" = "$COMMIT" ]'
@@ -21,8 +22,8 @@ FROM golang:1.23 AS geth
 WORKDIR /app
 
 ENV REPO=https://github.com/ethereum-optimism/op-geth.git
-ENV VERSION=v1.101602.3
-ENV COMMIT=b51c72ebea9dcf14e6859b14e4bd92c484714f08
+ENV VERSION=v1.101603.5
+ENV COMMIT=904a088c5cc1eeec21a1ffa47327dc20a809e642
 RUN git clone $REPO --branch $VERSION --single-branch . && \
     git switch -c branch-$VERSION
 #    bash -c '[ "$(git rev-parse HEAD)" = "$COMMIT" ]'

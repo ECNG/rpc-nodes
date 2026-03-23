@@ -5,8 +5,8 @@ FROM golang:1.23 AS op
 WORKDIR /app
 
 ENV REPO=https://github.com/ethereum-optimism/optimism.git
-ENV VERSION=v1.16.2
-ENV COMMIT=1b8c541060f0d323a7023fbc68fbbc8daf674340
+ENV VERSION=v1.16.7
+ENV COMMIT=3019251e80aa248e91743addd3e833190acb26f1
 RUN git clone $REPO --branch op-node/$VERSION --single-branch . && \
     git switch -c branch-$VERSION
 #    bash -c '[ "$(git rev-parse HEAD)" = "$COMMIT" ]'
@@ -22,8 +22,8 @@ FROM golang:1.23 AS geth
 WORKDIR /app
 
 ENV REPO=https://github.com/ethereum-optimism/op-geth.git
-ENV VERSION=v1.101603.5
-ENV COMMIT=904a088c5cc1eeec21a1ffa47327dc20a809e642
+ENV VERSION=v1.101609.1
+ENV COMMIT=878a554cc84cead647d20ba366043c6fd41ebf1c
 RUN git clone $REPO --branch $VERSION --single-branch . && \
     git switch -c branch-$VERSION
 #    bash -c '[ "$(git rev-parse HEAD)" = "$COMMIT" ]'

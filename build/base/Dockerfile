@@ -1,6 +1,6 @@
 # https://github.com/base/node/blob/main/geth/Dockerfile, see actiual versions
 # https://github.com/base/node/blob/main/versions.env
-FROM golang:1.23 AS op
+FROM golang:1.24 AS op
 
 WORKDIR /app
 
@@ -17,7 +17,7 @@ RUN curl -sSfL 'https://just.systems/install.sh' | bash -s -- --to /usr/local/bi
 RUN cd op-node && \
     make VERSION=$VERSION op-node
 
-FROM golang:1.23 AS geth
+FROM golang:1.24 AS geth
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ RUN git clone $REPO --branch $VERSION --single-branch . && \
 
 RUN go run build/ci.go install -static ./cmd/geth
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 RUN apt-get update && \
     apt-get install -y jq curl supervisor && \
